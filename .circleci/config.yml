@@ -1,0 +1,52 @@
+version: 2.1
+jobs:
+  build:
+    docker: 
+      - image: innovanon/docker-wad:latest
+    #parallelism: 4
+    steps:
+      #- run:
+      #    command: |
+      #      set -exu
+      #      echo -e "$GPG_KEY" | gpg --import
+      #- run:
+      #    command: |
+      #      set -exu
+      #
+      #     #gpg --local-user 53F31F9711F06089\! --sign latest.wad
+      #
+      #     #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} \
+      #     #  latest.wad latest.wad.gpg
+      #- run:
+      #    command: |
+            #set -exu
+            #cd /root/oblige/wads
+            #oblige --home /usr/local/share/oblige --batch latest.wad
+      - store_artifacts:
+          path: /usr/out/Project_Brutality.pk3
+      - store_artifacts:
+          path: /usr/out/freedm.wad
+      - store_artifacts:
+          path: /usr/out/freedoom1.wad
+      - store_artifacts:
+          path: /usr/out/freedoom2.wad
+workflows:
+  version: 2.1
+  commit:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+  #nightly:
+  #  triggers: #use the triggers key to indicate a scheduled build
+  #    - schedule:
+  #        cron: "0 0 * * *" # use cron syntax to set the schedule
+  #        filters:
+  #          branches:
+  #            only:
+  #              - master
+  #  jobs:
+  #    - build
+

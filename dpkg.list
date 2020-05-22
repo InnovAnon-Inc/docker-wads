@@ -1,0 +1,10 @@
+busybox
+libpng-dev
+zip
+autoconf
+autoconf-archive
+automake
+pkg-config
+build-essential
+python3-pil
+
