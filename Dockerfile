@@ -4,18 +4,18 @@
 FROM innovanon/poobuntu:latest
 MAINTAINER Innovations Anonymous <InnovAnon-Inc@protonmail.com>
 
-LABEL version="1.0"
-LABEL maintainer="Innovations Anonymous <InnovAnon-Inc@protonmail.com>"
-LABEL about="Doom WADS"
-LABEL org.label-schema.build-date=$BUILD_DATE
-LABEL org.label-schema.license="PDL (Public Domain License)"
-LABEL org.label-schema.name="docker-wads"
-LABEL org.label-schema.url="InnovAnon-Inc.github.io/docker-wads"
-LABEL org.label-schema.vcs-ref=$VCS_REF
-LABEL org.label-schema.vcs-type="Git"
-LABEL org.label-schema.vcs-url="https://github.com/InnovAnon-Inc/docker-wads"
+LABEL version="1.0"                                                     \
+      maintainer="Innovations Anonymous <InnovAnon-Inc@protonmail.com>" \
+      about="Doom WADS"                                                 \
+      org.label-schema.build-date=$BUILD_DATE                           \
+      org.label-schema.license="PDL (Public Domain License)"            \
+      org.label-schema.name="docker-wads"                               \
+      org.label-schema.url="InnovAnon-Inc.github.io/docker-wads"        \
+      org.label-schema.vcs-ref=$VCS_REF                                 \
+      org.label-schema.vcs-type="Git"                                   \
+      org.label-schema.vcs-url="https://github.com/InnovAnon-Inc/docker-wads"
 
-ENV B /usr
+ENV B=/usr
 
 COPY dpkg.list .
 RUN apt-fast install `grep -v '^[\^#]' dpkg.list` \
@@ -84,6 +84,9 @@ RUN apt-mark manual `grep -v '^[\^#]' manual.list` \
  && apt-fast purge  `grep -v '^[\^#]' dpkg.list`   \
  && ./poobuntu-clean.sh                            \
  && rm -v manual.list dpkg.list
+
+# TODO use repo
+COPY rainbow_blood.pk3 ${B}/out/
 
 #ENTRYPOINT cp -v ${B}/out/*.wad ${B}/out/Project_Brutality.pk3 ${B}
 ENTRYPOINT find ${B}/out
