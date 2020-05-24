@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 services:
   wads:
     build: .
@@ -6,6 +6,8 @@ services:
     #restart: unless-stopped
     volumes:
       - wadsvol:/usr/vol:rw
+    image: innovanon/docker-wads:latest
+    container_name: innovanon/docker-wads
 
 volumes:
   wadsvol:
