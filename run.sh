@@ -25,7 +25,7 @@ docker volume create  wadsvol
 
 xhost +local:`whoami`
 sudo             -- \
-nice -n -20      -- \
+nice -n +20      -- \
 sudo -u `whoami` -- \
 docker run   -t --net=host -e DISPLAY=${DISPLAY} --mount source=wadsvol,target=/usr/out --rm --name wads innovanon/wads
 #docker run   -t --mount source=wadsvol,target=/root/oblige --rm --name wads innovanon/wads
