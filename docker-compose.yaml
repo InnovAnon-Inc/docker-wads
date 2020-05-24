@@ -1,0 +1,13 @@
+version: '3'
+services:
+  wads:
+    build: .
+    hostname: wads
+    #restart: unless-stopped
+    volumes:
+      - wadsvol:/usr/vol:rw
+
+volumes:
+  wadsvol:
+    external: true
+

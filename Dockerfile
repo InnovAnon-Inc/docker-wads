@@ -23,15 +23,15 @@ RUN apt-fast install `grep -v '^[\^#]' dpkg.list` \
 
 WORKDIR ${B}/src
 #RUN git clone --depth=1 --recursive https://github.com/Doom-Utils/deutex.git
-RUN wget -qO- https://github.com/Doom-Utils/deutex/archive/master.zip \
+RUN pcurl https://github.com/Doom-Utils/deutex/archive/master.zip \
   | busybox unzip -q -
 #RUN git clone --depth=1 --recursive https://github.com/Doom-Utils/zennode.git
-RUN wget -qO- https://github.com/Doom-Utils/zennode/archive/master.zip \
+RUN pcurl https://github.com/Doom-Utils/zennode/archive/master.zip \
   | busybox unzip -q -
 #RUN git clone --depth=1 --recursive https://github.com/freedoom/freedoom.git
-RUN wget -qO- https://github.com/freedoom/freedoom/archive/master.zip \
+RUN pcurl https://github.com/freedoom/freedoom/archive/master.zip \
   | busybox unzip -q -
-RUN wget -qO- https://github.com/pa1nki113r/Project_Brutality/archive/master.zip \
+RUN pcurl https://github.com/pa1nki113r/Project_Brutality/archive/master.zip \
   | busybox unzip -q -
 
 WORKDIR ${B}/src/deutex-master
@@ -67,22 +67,28 @@ WORKDIR ${B}/src
 #RUN git clone --depth=1 --recursive https://github.com/pa1nki113r/Project_Brutality.git
 RUN zip -q -Z bzip2 -9 ${B}/out/Project_Brutality.pk3 Project_Brutality-master   \
  && rm -rf freedoom-master deutex-master zennode-master Project_Brutality-master \
- && mkdir -v rainbow_blood
+ && mkdir -v rainbow_blood bd_be
 
 # TODO use repo
 WORKDIR rainbow_blood
-#RUN wget -qO- https://sjc3.dl.dbolical.com/dl/2017/07/30/rainbow_blood.zip \
+#RUN pcurl https://sjc3.dl.dbolical.com/dl/2017/07/30/rainbow_blood.zip \
 #  | busybox unzip -q - | buxybox unzip -q -o - \
 # && zip -q -Z bzip2 -9 -r ${B}/out/rainbow_blood.pk3 .
 COPY rainbow_blood.zip .
-RUN busybox unzip -q   rainbow_blood.zip        \
- && mv -v 'rainbow blood.pk3' rainbow_blood.zip \
- && busybox unzip -q -o rainbow_blood.zip       \
- && rm -v rainbow_blood.zip                     \
+RUN busybox unzip -q -p rainbow_blood.zip \
+  | busybox unzip -q -o -                 \
+ && rm -v rainbow_blood.zip               \
  && zip -q -Z bzip2 -9 -r ${B}/out/rainbow_blood.pk3 .
 
+WORKDIR bd_be
+COPY Brutal_Doom_Black_Edition.36.zip .
+RUN busybox unzip -q -p Brutal_Doom_Black_Edition.36.zip \
+  | busybox unzip -q -o -                                \
+ && rm -v Brutal_Doom_Black_Edition.36.zip               \
+ && zip -q -Z bzip2 -9 -r ${B}/out/bd_be.pk3 .
+
 WORKDIR /
-RUN rm -rf ${B}/src/rainbow_blood                  \
+RUN rm -rf ${B}/src/rainbow_blood ${B}/src/bd_be   \
  && apt-mark manual `grep -v '^[\^#]' manual.list` \
  && apt-fast purge  `grep -v '^[\^#]' dpkg.list`   \
  && ./poobuntu-clean.sh                            \

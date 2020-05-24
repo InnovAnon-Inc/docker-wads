@@ -1,35 +1,21 @@
 #! /bin/bash
 set -exu
-
-if ! command -v dockerd ; then
-	command -v wget ||
-	apt install wget
-	wget -nc https://download.docker.com/linux/static/stable/x86_64/docker-19.03.8.tgz
-	[ -d docker-19.03.8 ] ||
-	tar xf docker-19.03.8.tgz
-	install docker/* /usr/local/bin/
-fi
+[[ $# -eq 0 ]]
 
 docker version ||
 dockerd &
 
-sudo             -- \
-nice -n +20      -- \
-sudo -u `whoami` -- \
-docker build -t innovanon/docker-wads .
-
-docker push innovanon/docker-wads:latest || :
-
-docker volume inspect wadsvol ||
-docker volume create  wadsvol
+docker volume inspect abaddonvol ||
+docker volume create  abaddonvol
 
 xhost +local:`whoami`
 sudo             -- \
 nice -n +20      -- \
 sudo -u `whoami` -- \
-docker run   -t --net=host -e DISPLAY=${DISPLAY} --mount source=wadsvol,target=/usr/vol --rm --name docker-wads innovanon/docker-wads
-#docker run   -t --net=host -e DISPLAY=${DISPLAY} --rm --name docker-wads innovanon/docker-wads
-#docker run   -t --mount source=wadsvol,target=/usr/vol --rm --name docker-wads innovanon/docker-wads
+docker-compose up --build
+#docker-compose up -d --build
+
+#docker run   -t --net=host -e DISPLAY=${DISPLAY} --mount source=abaddonvol,target=/root/oblige --rm --name abaddon innovanon/abaddon --help
 
 # https://www.reddit.com/r/docker/comments/9ou9wx/getting_build_artifacts_out_of_docker_image/
 
@@ -42,6 +28,7 @@ trap "docker rm ${CID}" 0
 # Grab that artifact sweetness
 docker cp ${CID}:/usr/vol/Project_Brutality.pk3 .
 docker cp ${CID}:/usr/vol/rainbow_blood.pk3     .
+docker cp ${CID}:/usr/vol/bd_be.pk3             .
 docker cp ${CID}:/usr/vol/freedm.wad            .
 docker cp ${CID}:/usr/vol/freedoom1.wad         .
 docker cp ${CID}:/usr/vol/freedoom2.wad         .
