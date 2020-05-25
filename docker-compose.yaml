@@ -7,7 +7,7 @@ services:
     volumes:
       - wadsvol:/usr/vol:rw
     image: innovanon/docker-wads:latest
-    container_name: innovanon/docker-wads
+    container_name: docker-wads
 
 volumes:
   wadsvol:
