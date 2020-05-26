@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 set -exu
 [[ $# -eq 0 ]]
 cd "`dirname "$(readlink -f "$0")"`"
