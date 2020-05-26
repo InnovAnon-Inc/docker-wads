@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 set -exu
-[[ $# -eq 0 ]]
+(( $# == 0 ))
 cd "`dirname "$(readlink -f "$0")"`"
 
 command -v docker ||
