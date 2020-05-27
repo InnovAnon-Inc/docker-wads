@@ -22,17 +22,22 @@ RUN apt-fast install `grep -v '^[\^#]' dpkg.list` \
  && mkdir -pv ${B}/src ${B}/out
 
 WORKDIR ${B}/src
-#RUN git clone --depth=1 --recursive https://github.com/Doom-Utils/deutex.git
-RUN pcurl https://github.com/Doom-Utils/deutex/archive/master.zip \
-  | busybox unzip -q -
-#RUN git clone --depth=1 --recursive https://github.com/Doom-Utils/zennode.git
-RUN pcurl https://github.com/Doom-Utils/zennode/archive/master.zip \
-  | busybox unzip -q -
-#RUN git clone --depth=1 --recursive https://github.com/freedoom/freedoom.git
-RUN pcurl https://github.com/freedoom/freedoom/archive/master.zip \
-  | busybox unzip -q -
-RUN pcurl https://github.com/pa1nki113r/Project_Brutality/archive/master.zip \
-  | busybox unzip -q -
+RUN git clone --depth=1 --recursive https://github.com/Doom-Utils/deutex.git \
+ && mv -v deutex deutex-master
+#RUN pcurl https://github.com/Doom-Utils/deutex/archive/master.zip \
+#  | busybox unzip -q -
+RUN git clone --depth=1 --recursive https://github.com/Doom-Utils/zennode.git \
+ && mv -v zennode zennode-master
+#RUN pcurl https://github.com/Doom-Utils/zennode/archive/master.zip \
+#  | busybox unzip -q -
+RUN git clone --depth=1 --recursive https://github.com/freedoom/freedoom.git \
+ && mv -v freedoom freedoom-master
+#RUN pcurl https://github.com/freedoom/freedoom/archive/master.zip \
+#  | busybox unzip -q -
+RUN git clone --depth=1 --recursive https://github.com/pa1nki113r/Project_Brutality.git \
+ && mv -v Project_Brutality Project_Brutality-master
+#RUN pcurl https://github.com/pa1nki113r/Project_Brutality/archive/master.zip \
+#  | busybox unzip -q -
 
 WORKDIR ${B}/src/deutex-master
 RUN chmod -v +x bootstrap \

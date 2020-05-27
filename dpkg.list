@@ -8,3 +8,4 @@ pkg-config
 build-essential
 python3-pil
 
+git
