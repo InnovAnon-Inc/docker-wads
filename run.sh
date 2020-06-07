@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 set -exu
-(( $# == 0 ))
+(( ! $# ))
 cd "`dirname "$(readlink -f "$0")"`"
 
 command -v docker ||
@@ -11,10 +11,10 @@ docker volume create  abaddonvol
 
 trap 'docker-compose down' 0
 
-xhost +local:`whoami`
+xhost +local:"$USER"
 sudo             -- \
 nice -n +20      -- \
-sudo -u `whoami` -- \
+sudo -u "$USER" -- \
 docker-compose up --build --force-recreate
 #docker-compose up -d --build
 

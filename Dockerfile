@@ -18,7 +18,8 @@ LABEL version="1.0"                                                     \
 ENV B=/usr
 
 COPY dpkg.list manual.list ./
-RUN apt-fast install `grep -v '^[\^#]' dpkg.list` \
+RUN apt-fast update \
+ && apt-fast install `grep -v '^[\^#]' dpkg.list` \
  && mkdir -pv ${B}/src ${B}/out
 
 WORKDIR ${B}/src
@@ -68,10 +69,12 @@ RUN make uninstall
 WORKDIR ${B}/src/zennode-master
 RUN make uninstall
 
-WORKDIR ${B}/src
 #RUN git clone --depth=1 --recursive https://github.com/pa1nki113r/Project_Brutality.git
-RUN zip -q -Z bzip2 -9 ${B}/out/Project_Brutality.pk3 Project_Brutality-master   \
- && rm -rf freedoom-master deutex-master zennode-master Project_Brutality-master \
+WORKDIR ${B}/src/Project_Brutality-master
+RUN rm -rf .git \
+ && zip -q -Z bzip2 -9 ${B}/out/Project_Brutality.pk3 .
+WORKDIR ${B}/src
+RUN rm -rf freedoom-master deutex-master zennode-master Project_Brutality-master \
  && mkdir -v rainbow_blood bd_be
 
 # TODO use repo
