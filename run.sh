@@ -11,7 +11,7 @@ docker volume create  abaddonvol
 
 trap 'docker-compose down' 0
 
-xhost +local:`whoami`
+xhost +local:`whoami` || :
 sudo             -- \
 nice -n +20      -- \
 sudo -u `whoami` -- \
